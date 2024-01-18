@@ -1,12 +1,13 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth.models import AbstractUser
 
 from apps.base.services import get_path_upload_avatar, validate_size_image
 
 
-class AuthUser(models.Model):
+class AuthUser(AbstractUser):
     """
-    Custom user model
+    Extended user model
     """
     email = models.EmailField(max_length=128,
                               unique=True, 
@@ -24,7 +25,7 @@ class AuthUser(models.Model):
     bio = models.TextField(verbose_name='О себе', 
                            blank=True, 
                            null=True)
-    display_name = models.CharField(max_length=32, 
+    username = models.CharField(max_length=32, 
                                     verbose_name='Username', 
                                     blank=True, 
                                     null=True)
@@ -39,13 +40,16 @@ class AuthUser(models.Model):
         verbose_name = 'Пользователя приложения'
         verbose_name_plural = 'Пользователи приложения'
 
-def __str__(self):
-    return self.email
+    def __str__(self):
+        return self.email
 
-@property
-def is_authenticated(self):
-    """All time return True. This is required by Django"""
-    return True
+    @property
+    def is_authenticated(self):
+        """All time return True. This is required by Django"""
+        return True
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ["username"]    
 
 
 class Followers(models.Model):
