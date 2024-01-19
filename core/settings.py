@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
+    # thirdparty apps
+    'social_django',
     # custom apps
     'apps.oauth',
 ]
@@ -131,3 +133,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # custom usermodel settings
 AUTH_USER_MODEL = 'oauth.AuthUser'
+
+
+REST_FRAMEWORK = {
+'DEFAULT_AUTHENTICATION_CLASSES': ('apps.oauth.services.auth_backend.AuthBackend',),
+'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+}
+
+# social auth settings
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    # required backend
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '787896009052-0d6mmd8doo2maja6o7au9dbmku7n45av.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'

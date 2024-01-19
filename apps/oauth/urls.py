@@ -8,5 +8,6 @@ app_name = 'oauth'
 
 
 urlpatterns = [
-    path('', auth_views.google_login, name='google_login'),
+    path('google_login/', auth_views.google_login, name='google_login'),
+    path('me/', views.UserViewSet.as_view({'get': 'retrieve', 'put': 'update'}), name='me'),
 ]
